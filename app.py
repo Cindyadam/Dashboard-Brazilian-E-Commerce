@@ -17,8 +17,14 @@ st.caption("Sumber data: Tabel Fakta hasil ETL Pentaho Data Integration")
 # =====================
 @st.cache_data
 def load_data():
-    df = pd.read_csv("fact_olist.csv")
-    df['purchase_date'] = pd.to_datetime(df['purchase_date'])
+    df = pd.read_csv(
+        "fact_olist.csv",
+        sep=",",                 
+        encoding="latin1",       
+        engine="python",         
+        on_bad_lines="skip"      
+    )
+    df['purchase_date'] = pd.to_datetime(df['purchase_date'], errors="coerce")
     return df
 
 df = load_data()
